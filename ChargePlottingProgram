@@ -8,6 +8,7 @@
 #include <limits>
 #include<cstdlib>
 #include<ctgmath>
+#include<cstdio>
 #define constk 8987552000
 using namespace std;
 int main(int argc, char **argv)
@@ -16,12 +17,12 @@ int main(int argc, char **argv)
 	printf("This program will calculate electric field from multiple point charges\n");
 	printf("\n");
 	printf("Now input how many charges you will be working with\n");
-	scanf("%d", &camount);
-	double chargex[camount];
-	double chargey[camount];
-
-	double chargez[camount];
-	double chargem[camount];
+	scanf_s("%d", &camount);
+	const int SIZE = 100;
+	float chargex[SIZE];
+	float chargey[SIZE];
+	float chargez[SIZE];
+	float chargem[SIZE];
 	int chargec = 0;
 	int chargei = 0;
 	printf("\n");
@@ -32,38 +33,41 @@ int main(int argc, char **argv)
 	{
 		chargei = chargec + 1;
 		printf("Enter the X coordinate of charge #%d \n", chargei);
-		scanf("%1f", &chargex[chargec]);
+		scanf_s("%1f", &chargex[chargec]);
+		printf("\n");
 		printf("Enter the Y coordinate of charge #%d \n", chargei);
-		scanf("%1f", &chargey[chargec]);
+		scanf_s("%1f", &chargey[chargec]);
+		printf("\n");
 		printf("Enter the Z coordinate of charge #%d \n", chargei);
-		scanf("%1f", &chargez[chargec]);
+		scanf_s("%1f", &chargez[chargec]);
+		printf("\n");
 		printf("Enter the magnitude of charge  #%d \n", chargei);
-		scanf("%1f", &chargem[chargec]);
+		scanf_s("%1f", &chargem[chargec]);
 		printf("\n");
 	}
-	double pointx;
-	double pointy;
-	double pointz;
+	float pointx;
+	float pointy;
+	float pointz;
 	printf("Enter the point where you want to calculate the field\n");
 	printf("\n");
 	printf("Enter the x-coordinate: \n");
-	scanf("%1f", &pointx);
+	scanf_s("%1f", &pointx);
 	printf("Enter the y-coordinate: \n");
-	scanf("%1f", &pointy);
+	scanf_s("%1f", &pointy);
 	printf("Enter the z-coordinate: \n");
-	scanf("%1f", &pointz);
+	scanf_s("%1f", &pointz);
 	printf("Now calculating field\n");
-	double chargefx[camount];
-	double chargefy[camount];
-	double chargefz[camount];
-	double chargefm = 0;
-	double distx = 0;
-	double disty = 0;
-	double distz = 0;
-	double distm = 0;
-	double distux = 0;
-	double distuy = 0;
-	double distuz = 0;
+	float chargefx[SIZE];
+	float chargefy[SIZE];
+	float chargefz[SIZE];
+	float chargefm = 0;
+	float distx = 0;
+	float disty = 0;
+	float distz = 0;
+	float distm = 0;
+	float distux = 0;
+	float distuy = 0;
+	float distuz = 0;
 	for (chargec = 0; chargec < camount; chargec++)
 	{
 		//calculate distance vector between charge and point of intrest;
@@ -72,7 +76,7 @@ int main(int argc, char **argv)
 		disty = pointy - chargey[chargec];
 		distz = pointz - chargez[chargec];
 		//calculate the distance magnitude
-		distm = sqrtf(powf(distx, 2)*powf(disty, 2)*powf(distm, 2));
+		distm = sqrtf(powf(distx, 2) + powf(disty, 2) + powf(distz, 2));
 		// apply formula to get the field magnitude 
 		// E = (kq)/r^2
 		chargefm = (constk * chargem[chargec]) / (powf(distm, 2));
@@ -87,9 +91,9 @@ int main(int argc, char **argv)
 		chargefz[chargec] = chargefm * distuz;
 	}
 	// Now sum all the field components from all charges to get the final electric field vector 
-	double fieldx;
-	double fieldy;
-	double fieldz;
+	double fieldx = 0;
+	double fieldy = 0;
+	double fieldz = 0;
 	for (chargec = 0; chargec < camount; chargec++)
 	{
 		fieldx = fieldx + chargefx[chargec];
@@ -99,6 +103,5 @@ int main(int argc, char **argv)
 	printf("Calculation Complete. The field at the point is: \n");
 	printf("%f i, %f j, %f k N/m", fieldx, fieldy, fieldz);
 	printf("\n");
-		   return 0;
+	return 0;
 }
-
